@@ -45,6 +45,23 @@ class MainActivity : AppCompatActivity() {
         /**getting and update the age
          * every time user age change it will be observed by userAgeFlow
          */
+
+        userManager.userAgeFlow.asLiveData().observe(this) { age ->
+            age?.let {
+                binding.tvAge.text = "Age: $age"
+            }
+        }
+
+        /**getting and update the age
+         * every time user age change it will be observed by userNameFlow
+         */
+
+        userManager.usernameFlow.asLiveData().observe(this) { name->
+            name?.let {
+                binding.tvName.text = "Name: $name"
+            }
+        }
+
     }
 
 
@@ -63,6 +80,7 @@ class MainActivity : AppCompatActivity() {
          * Our class is a suspend function it's run only inside of coroutine scope
          */
         lifecycleScope.launch {
+            userManager.storeUserData(age, name)
             Toast.makeText(this@MainActivity,
                 "User Saved",
             Toast.LENGTH_SHORT
